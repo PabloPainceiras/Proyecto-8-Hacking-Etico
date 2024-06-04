@@ -27,11 +27,11 @@ Aquí hay un desglose del problema y lo que el error nos dice:
     - `"admin'--"` es inválido debido al uso incorrecto de comillas dobles y simples. Debería ser algo como `'admin' --`.
 
 
-| Escribo los valores | "admin'--" |
+| Escribo los valores | ```"admin'--"``` |
 |------------------|-----------|
 | En el campo | User |
 | Del formulario de la pagina | http://localhost/insert_player.php# |
-| La consulta que ejecuta es | SELECT userId, password FROM users WHERE username = ""admin" --"" |
+| La consulta que ejecuta es | ```SELECT userId, password FROM users WHERE username = ""admin" --""``` |
 | La consulta SQL que se ejecuta en la consulta SQL | User |
 | Campos del formulario web no utilizados en la consulta SQL | Password |
 
@@ -63,7 +63,8 @@ La consulta quedaría asin:
 
 | Explicación del ataque  | Para llevar a cabo el ataque, la técnica consiste en enviar repetidamente la consulta con el campo de usuario configurado como: admin . '" OR password = "'.contraseña_probada, utilizando en cada intento una contraseña diferente tomada de un diccionario de contraseñas. Esto permite determinar si el nombre de usuario existe o si la contraseña es correcta. |
 | ----------------------- | -------------   |
-| Campo de usuario con que el ataque ha tenido exito | admin . '" OR password = "' . 1234 |                                 | Campo contraseña con el que el ataque tiene exito  | 1234 |                                                                                                                                                                                                                                                                                                                
+| Campo de usuario con que el ataque ha tenido exito | ```admin . '" OR password = "' . 1234``` |
+| Campo contraseña con el que el ataque tiene exito  | 1234 |                                                                                                                                                                                                                                                                                                                
 
 
 c) Si vais a **private/auth.php,** veréis que en la función areUserAndPasswordValid”, se utiliza “SQLite3::escapeString()”, pero, aun así, el formulario es vulnerable a SQL Injections, explicad cuál es el error de programación de esta función y como lo podéis corregir.
@@ -72,9 +73,9 @@ c) Si vais a **private/auth.php,** veréis que en la función areUserAndPasswo
 | Explicación del error | El error principal en la función **areUserAndPasswordValid** es que aunque se utiliza **SQLite3::escapeString()** para escapar los caracteres especiales en la consulta SQL, aún se concatena directamente la entrada del usuario (**$user**) en la cadena de consulta. Esto deja la aplicación vulnerable a ataques de inyección SQL si un atacante proporciona datos maliciosos. |
 |------------------------|----------------|
 | Como lo solucionamos | La forma de solucionar el problema manteniendo el  uso de **SQLite3::escapeString() , es** asegurarse de que la consulta se construya correctamente. En este caso, debemos asegurarnor de que el usuario proporcionado esté entre comillas simples en la consulta SQL. |
-| Solucion: Cambiar la línea con el codigo |   $query = SQLite3::escapeString('SELECT userId, password FROM users WHERE username = "' . $user . '"'); |
-| por la siguiente | $escapedUser = SQLite3::escapeString($user); |
-|    |  $query = 'SELECT userId, password FROM users WHERE username = \'' . $escapedUser . '\''; |
+| Solucion: Cambiar la línea con el codigo |   ```$query = SQLite3::escapeString('SELECT userId, password FROM users WHERE username = "' . $user . '"');``` |
+| por la siguiente | ```$escapedUser = SQLite3::escapeString($user);``` |
+|    | ```$query = 'SELECT userId, password FROM users WHERE username = \'' . $escapedUser . '\'';``` |
 
 d) **Si habéis tenido éxito con el *apartado b),* os habéis autenticado utilizando elusuario “luis” (si no habéis tenido éxito, podéis utilizar la contraseña “1234” para realizar este apartado). Con el objetivo de mejorar la imagen de la jugadora “Candela Pacheco”, le queremos escribir un buen puñado de comentarios positivos, pero no los queremos hacer todos con la misma cuenta de usuario.**
 
@@ -87,20 +88,20 @@ La vulnerabilidad en el código de "add_comment.php" es que no verifica adecuada
 Por lo tanto, cualquier usuario puede manipular esta cookie y falsificar su identidad para publicar un comentario en nombre de otro usuario. Esto significa que un atacante puede explotar esta vulnerabilidad para publicar mensajes en nombre de otros usuarios sin su autorización.
 
 
-| Vulnerabilidad detectada | $query = "INSERT INTO comments (playerId, userId, body) VALUES ('".$_GET['id']."', '".$_COOKIE['userId']."', '$body')"; |
+| Vulnerabilidad detectada | ``` $query = "INSERT INTO comments (playerId, userId, body) VALUES ('".$_GET['id']."', '".$_COOKIE['userId']."', '$body')"; ``` |
 |----------------------|-------------------|
 |            | En esta línea, el código toma el valor de la cookie userId sin verificar si realmente pertenece al usuario autenticado. |
 | Descripcion del ataque | El ataque que se puede utilizar para explotar esta vulnerabilidad es un ataque de suplantación de identidad o "spoofing". El atacante puede manipular los datos enviados en la solicitud HTTP para falsificar la identidad del usuario que está publicando el comentario. |
 | ¿Como podemos asegurar la entrada? | Para asegurarlo: |
-| Iniciar la sesión y almacenar el userId de forma segura | session_start();
-|  |  if (areUserAndPasswordValid($_POST['username'], $_POST['password'])) {
-|  |  $_SESSION['userId'] = $userId; |
-| | } |
-| Usar consultas preparadas | $stmt = $db->prepare('INSERT INTO comments (playerId, userId, body) VALUES (?, ?, ?)'); |
-|  | $stmt->bindValue(1, $playerId, SQLITE3_INTEGER); |
-|  | $stmt->bindValue(2, $_SESSION['userId'], SQLITE3_INTEGER); |
-|  | $stmt->bindValue(3, $body, SQLITE3_TEXT); |
-|  | $stmt->execute() or die("Invalid query"); |
+| Iniciar la sesión y almacenar el userId de forma segura | ```session_start();``` |
+|  |  ```if (areUserAndPasswordValid($_POST['username'], $_POST['password'])) { ```|
+|  |  ```$_SESSION['userId'] = $userId;``` |
+| | ```}``` |
+| Usar consultas preparadas | ```$stmt = $db->prepare('INSERT INTO comments (playerId, userId, body) VALUES (?, ?, ?)');``` |
+|  | ```$stmt->bindValue(1, $playerId, SQLITE3_INTEGER);``` |
+|  | ```$stmt->bindValue(2, $_SESSION['userId'], SQLITE3_INTEGER);``` |
+|  | ```$stmt->bindValue(3, $body, SQLITE3_TEXT);``` |
+|  | ```$stmt->execute() or die("Invalid query");``` |
 
 
 **Parte 2 - XSS**
@@ -804,7 +805,7 @@ a) Editad un jugador para conseguir que, en el listado de jugadores (list_player
 
 | En el campo | Team name |
 |-------------|-------------|
-| Introduzco | <?$team?> |
+| Introduzco | ```<?$team?>``` |
 | | ```<br></br>``` |
 | | ```<br></br>``` |
 | | ```<br></br>``` |
