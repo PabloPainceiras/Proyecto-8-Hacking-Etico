@@ -129,12 +129,12 @@ c) Explicad cuál es el problema de show_comments.php, y cómo lo arreglaríais.
 |-----------------------|----------------|
 | Solución | Para solucionar este problema y mejorar la seguridad del sitio, es necesario implementar una sanitización adecuada en los parámetros GET antes de insertarlos en el HTML. Una forma común de hacer esto es utilizando la función **`htmlspecialchars()`** en PHP para escapar los caracteres especiales en HTML. |
 | Sustituyo el código de la/las líneas | <footer class="listado"> |
-| | <img src="images/logo-iesra-cadiz-color-blanco.png"> |
+| | ```<img src="images/logo-iesra-cadiz-color-blanco.png">``` |
 | |   <h4>Puesta en producción segura</h4> |
 | | < Please <a href="http://www.donate.co?amount=100&amp;destination=ACMEScouting/"> donate</a> > |
 | | </footer> |
 | por el siguiente codigo | <footer class="listado"> |
-| | <img src="images/logo-iesra-cadiz-color-blanco.png"> |
+| | ```<img src="images/logo-iesra-cadiz-color-blanco.png">``` |
 | |  <h4>Puesta en producción segura</h4> |
 | |  < Please <a href="http://www.donate.co?amount=<?php echo htmlspecialchars($_GET['amount']); ?>&amp;destination=<?php echo htmlspecialchars($_GET['destination']); ?>"> donate</a> > |
 | | </footer> |
