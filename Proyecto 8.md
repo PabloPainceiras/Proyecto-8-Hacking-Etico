@@ -6,11 +6,11 @@ a) Dad un ejemplo de combinación de usuario y contraseña que provoque un error
 
 En mi caso he introducido un caracter entre comillas y esto ha provocado el error.
 
-![Untitled](Proyecto%208%208dc5a4ae1cad49eaa4dba57d95d3997b/Untitled.png)
+![Untitled](img/0.png)
 
 El error que nos ha dado es el siguiente
 
-![Untitled](Proyecto%208%208dc5a4ae1cad49eaa4dba57d95d3997b/Untitled%201.png)
+![Untitled](img/1.png)
 
 `Invalid query: SELECT userId, password FROM users WHERE username = ""admin" --"". Field user introduced is: "admin' --”`
 
@@ -54,7 +54,7 @@ Comprobando todas las contraseñas hemos dado con esta:
 
 `admin . '" OR password = "' . 1234`
 
-![Untitled](Proyecto%208%208dc5a4ae1cad49eaa4dba57d95d3997b/Untitled%202.png)
+![Untitled](img/2.png)
 
 La consulta quedaría asin:
 
@@ -116,9 +116,9 @@ a) Para ver si hay un problema de XSS, crearemos un comentario que muestre un al
 | Alerta | imagen |
 ```
 
-![Untitled](Proyecto%208%208dc5a4ae1cad49eaa4dba57d95d3997b/Untitled%203.png)
+![Untitled](img/3.png)
 
-![Untitled](Proyecto%208%208dc5a4ae1cad49eaa4dba57d95d3997b/Untitled%204.png)
+![Untitled](img/4.png)
 
 b) Por qué dice "&" cuando miráis un link(como elque aparece a la portada de esta aplicación pidiendo que realices un donativo) con parámetros GETdentro de código html si en realidad el link es sólo con "&" ?
 
@@ -814,9 +814,9 @@ a) Editad un jugador para conseguir que, en el listado de jugadores (list_player
 <a href="http://web.pagos/donate.php?amount=100&receiver=attacker">Profile</a> |
 ```
 
-![Untitled](Proyecto%208%208dc5a4ae1cad49eaa4dba57d95d3997b/Untitled%205.png)
+![Untitled](img/5.png)
 
-![Untitled](Proyecto%208%208dc5a4ae1cad49eaa4dba57d95d3997b/Untitled%206.png)
+![Untitled](img/6.png)
 
 b) Una vez lo tenéis terminado, pensáis que la eficacia de este ataque aumentaría si no necesitara que elusuario pulse un botón.Con este objetivo, cread un comentario que sirva vuestros propósitos sin levantar ninguna sospecha entre los usuarios que consulten los comentarios sobre un jugador (show_comments.php)
 
@@ -846,7 +846,7 @@ Comentario a introducir:
 </html>
 ```
 
-![Untitled](Proyecto%208%208dc5a4ae1cad49eaa4dba57d95d3997b/Untitled%207.png)
+![Untitled](img/7.png)
 
 - **Fachada de una página de donación:**
     
