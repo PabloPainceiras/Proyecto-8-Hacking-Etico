@@ -128,16 +128,16 @@ c) Explicad cuál es el problema de show_comments.php, y cómo lo arreglaríais.
 | ¿Cuál es el problema? | El problema principal en **`show_comments.php`** es la vulnerabilidad de XSS (Cross-Site Scripting) en la línea donde se muestra el enlace de donación en el pie de página. La URL del enlace de donación incluye parámetros GET (**`amount`** y **`destination`**) que se pasan directamente desde el código PHP al HTML sin ningún tipo de sanitización. Esto permite que un atacante pueda inyectar código JavaScript malicioso en esos parámetros y ejecutarlo en el navegador de un usuario cuando haga clic en el enlace de donación. |
 |-----------------------|----------------|
 | Solución | Para solucionar este problema y mejorar la seguridad del sitio, es necesario implementar una sanitización adecuada en los parámetros GET antes de insertarlos en el HTML. Una forma común de hacer esto es utilizando la función **`htmlspecialchars()`** en PHP para escapar los caracteres especiales en HTML. |
-| Sustituyo el código de la/las líneas | <footer class="listado"> |
+| Sustituyo el código de la/las líneas | ```<footer class="listado">```|
 | | ```<img src="images/logo-iesra-cadiz-color-blanco.png">``` |
-| |   <h4>Puesta en producción segura</h4> |
-| | < Please <a href="http://www.donate.co?amount=100&amp;destination=ACMEScouting/"> donate</a> > |
-| | </footer> |
-| por el siguiente codigo | <footer class="listado"> |
+| |  ``` <h4>Puesta en producción segura</h4>``` |
+| | ```< Please <a href="http://www.donate.co?amount=100&amp;destination=ACMEScouting/"> donate</a> >``` |
+| | ```</footer>``` |
+| por el siguiente codigo | ```<footer class="listado">``` |
 | | ```<img src="images/logo-iesra-cadiz-color-blanco.png">``` |
-| |  <h4>Puesta en producción segura</h4> |
-| |  < Please <a href="http://www.donate.co?amount=<?php echo htmlspecialchars($_GET['amount']); ?>&amp;destination=<?php echo htmlspecialchars($_GET['destination']); ?>"> donate</a> > |
-| | </footer> |
+| |  ```<h4>Puesta en producción segura</h4>``` |
+| |  ```< Please <a href="http://www.donate.co?amount=<?php echo htmlspecialchars($_GET['amount']); ?>&amp;destination=<?php echo htmlspecialchars($_GET['destination']); ?>"> donate</a> >``` |
+| | ```</footer>```|
 |  | Con esta corrección, cualquier código JavaScript malicioso inyectado en los parámetros **amount** y **destination** será escapado y tratado como texto plano en lugar de ser interpretado como HTML o JavaScript, mitigando así la vulnerabilidad de XSS. |
 
 
