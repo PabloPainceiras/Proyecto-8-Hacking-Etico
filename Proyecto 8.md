@@ -1,6 +1,6 @@
 # Proyecto 8
 
-**Parte 1 - SQLi**
+## **Parte 1 - SQLi**
 
 a) Dad un ejemplo de combinación de usuario y contraseña que provoque un error en la consulta SQL generada por este formulario. Apartir del mensaje de error obtenido, decid cuál es la consulta SQL que se ejecuta, cuál de los campos introducidos al formulario utiliza y cuál no.
 
@@ -104,7 +104,7 @@ Por lo tanto, cualquier usuario puede manipular esta cookie y falsificar su iden
 |  | ```$stmt->execute() or die("Invalid query");``` |
 
 
-**Parte 2 - XSS**
+## **Parte 2 - XSS**
 
 a) Para ver si hay un problema de XSS, crearemos un comentario que muestre un alert de Javascript siempre que alguien consulte el/los comentarios de aquel jugador (show_comments.php). Dad un mensaje que genere un «alert»de Javascript al consultar el listado de mensajes.
 
@@ -149,7 +149,7 @@ d)  Descubrid si hay alguna otra página que esté afectada por esta misma vulne
 | ¿Cómo lo he descubierto? | Buscando entre los posibles formularios a lso qu etengo acceso |
 
 
-**Parte 3 - Control de acceso, autenticación y sesiones de usuarios**
+## **Parte 3 - Control de acceso, autenticación y sesiones de usuarios**
 
 a) En el ejercicio 1, hemos visto cómo era inseguro el acceso de los usuarios a la aplicación. En la página de ***register.php*** tenemos el registro de usuario. ¿Qué medidas debemos implementar para evitar que el registro sea inseguro? Justifica esas medidas e implementa las medidas que sean factibles en este proyecto.
 
@@ -773,19 +773,19 @@ e) Por último, comprobando el flujo de la sesión del usuario. Analiza si está
 
 ### **Implementación de las medidas de seguridad**
 
-### **1. Autenticación protegida**
+**1. Autenticación protegida**
 
 Utiliza técnicas como bloqueo de cuentas tras múltiples intentos fallidos, uso de captchas y políticas de contraseñas seguras para proteger el proceso de autenticación.
 
-### **2. Gestión segura de sesiones**
+**2. Gestión segura de sesiones**
 
 Configura cookies con el atributo **`secure`** para garantizar que solo se envíen sobre conexiones HTTPS y utiliza tokens de sesión únicos generados de forma segura.
 
-### **3. Verificación de sesiones activas**
+**3. Verificación de sesiones activas**
 
 Implementa un sistema que valide la sesión del usuario en cada solicitud de página protegida. Esto puede lograrse mediante el uso de tokens de sesión, verificación de la autenticidad de las cookies y comprobación de la actividad reciente del usuario.
 
-### Parte 4 - Servidores web
+## **Parte 4 - Servidores web**
 
 ¿Qué medidas de seguridad se implementariaís en el servidor web para reducir el riesgo a ataques?
 
@@ -798,7 +798,7 @@ Implementa un sistema que valide la sesión del usuario en cada solicitud de pá
 7. **Seguridad de aplicaciones web**: Implementa buenas prácticas de seguridad en el desarrollo de aplicaciones web alojadas en el servidor, como la validación de entradas, prevención de inyecciones SQL, y protección contra ataques de scripting entre sitios (XSS) y falsificación de solicitudes entre sitios (CSRF).
 8. **Respuesta a incidentes y plan de continuidad del negocio**: Desarrolla un plan de respuesta a incidentes para abordar posibles brechas de seguridad y restaurar el funcionamiento normal del servidor en caso de compromiso. Además, elabora un plan de continuidad del negocio para minimizar el impacto de cualquier interrupción en el servicio.
 
-**Parte 5 - CSRF**
+## **Parte 5 - CSRF**
 
 a) Editad un jugador para conseguir que, en el listado de jugadores (list_players.php) aparezca, debajo del nombre de su equipo y antes de “(show/add comments)” un botón llamado “Profile” que corresponda a un formulario que envíe a cualquiera que haga clic sobre este botón a esta dirección que hemos preparado.
 
