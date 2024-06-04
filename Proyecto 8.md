@@ -93,14 +93,14 @@ Por lo tanto, cualquier usuario puede manipular esta cookie y falsificar su iden
 | Descripcion del ataque | El ataque que se puede utilizar para explotar esta vulnerabilidad es un ataque de suplantación de identidad o "spoofing". El atacante puede manipular los datos enviados en la solicitud HTTP para falsificar la identidad del usuario que está publicando el comentario. |
 | ¿Como podemos asegurar la entrada? | Para asegurarlo: |
 | Iniciar la sesión y almacenar el userId de forma segura | session_start();
-if (areUserAndPasswordValid($_POST['username'], $_POST['password'])) {
-    $_SESSION['userId'] = $userId;
-} |
-| Usar consultas preparadas | $stmt = $db->prepare('INSERT INTO comments (playerId, userId, body) VALUES (?, ?, ?)');
-$stmt->bindValue(1, $playerId, SQLITE3_INTEGER);
-$stmt->bindValue(2, $_SESSION['userId'], SQLITE3_INTEGER);
-$stmt->bindValue(3, $body, SQLITE3_TEXT);
-$stmt->execute() or die("Invalid query"); |
+|  |  if (areUserAndPasswordValid($_POST['username'], $_POST['password'])) {
+    $_SESSION['userId'] = $userId; |
+| | } |
+| Usar consultas preparadas | $stmt = $db->prepare('INSERT INTO comments (playerId, userId, body) VALUES (?, ?, ?)'); |
+|  | $stmt->bindValue(1, $playerId, SQLITE3_INTEGER); |
+|  | $stmt->bindValue(2, $_SESSION['userId'], SQLITE3_INTEGER); |
+|  | $stmt->bindValue(3, $body, SQLITE3_TEXT); |
+|  | $stmt->execute() or die("Invalid query"); |
 
 
 **Parte 2 - XSS**
