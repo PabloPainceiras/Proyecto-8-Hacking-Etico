@@ -94,7 +94,7 @@ Por lo tanto, cualquier usuario puede manipular esta cookie y falsificar su iden
 | ¿Como podemos asegurar la entrada? | Para asegurarlo: |
 | Iniciar la sesión y almacenar el userId de forma segura | session_start();
 |  |  if (areUserAndPasswordValid($_POST['username'], $_POST['password'])) {
-    $_SESSION['userId'] = $userId; |
+|  |  $_SESSION['userId'] = $userId; |
 | | } |
 | Usar consultas preparadas | $stmt = $db->prepare('INSERT INTO comments (playerId, userId, body) VALUES (?, ?, ?)'); |
 |  | $stmt->bindValue(1, $playerId, SQLITE3_INTEGER); |
