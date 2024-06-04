@@ -26,7 +26,7 @@ Aquí hay un desglose del problema y lo que el error nos dice:
     
     - `"admin'--"` es inválido debido al uso incorrecto de comillas dobles y simples. Debería ser algo como `'admin' --`.
 
-```php
+
 | Escribo los valores | "admin'--" |
 |------------------|-----------|
 | En el campo | User |
@@ -34,7 +34,7 @@ Aquí hay un desglose del problema y lo que el error nos dice:
 | La consulta que ejecuta es | SELECT userId, password FROM users WHERE username = ""admin" --"" |
 | La consulta SQL que se ejecuta en la consulta SQL | User |
 | Campos del formulario web no utilizados en la consulta SQL | Password |
-```
+
 
 b) Gracias a la SQL Injection del apartado anterior, sabemos que este formulario es vulnerable y conocemos el nombre de los campos de la tabla “users”. Para tratar de impersonar a un usuario, nos hemos descargado un diccionario que contiene algunas de las contraseñas más utilizadas (se listan a continuación):
 
@@ -60,23 +60,21 @@ La consulta quedaría asin:
 
 `SELECT userId, password FROM users WHERE username = "admin" OR password = "1234"`
 
-```markdown
+
 | Explicación del ataque  | Para llevar a cabo el ataque, la técnica consiste en enviar repetidamente la consulta con el campo de usuario configurado como: admin . '" OR password = "'.contraseña_probada, utilizando en cada intento una contraseña diferente tomada de un diccionario de contraseñas. Esto permite determinar si el nombre de usuario existe o si la contraseña es correcta. |
 | ----------------------- | -------------   |
-| Campo de usuario con que el ataque ha tenido exito | admin . '" OR password = "' . 1234 |                                                                                                                                                                                                                                                    
-| Campo contraseña con el que el ataque tiene exito  | 1234 |                                                                                                                                                                                                                                                                                                                
-```
+| Campo de usuario con que el ataque ha tenido exito | admin . '" OR password = "' . 1234 |                                 | Campo contraseña con el que el ataque tiene exito  | 1234 |                                                                                                                                                                                                                                                                                                                
+
 
 c) Si vais a **private/auth.php,** veréis que en la función areUserAndPasswordValid”, se utiliza “SQLite3::escapeString()”, pero, aun así, el formulario es vulnerable a SQL Injections, explicad cuál es el error de programación de esta función y como lo podéis corregir.
 
-```markdown
+
 | Explicación del error | El error principal en la función **areUserAndPasswordValid** es que aunque se utiliza **SQLite3::escapeString()** para escapar los caracteres especiales en la consulta SQL, aún se concatena directamente la entrada del usuario (**$user**) en la cadena de consulta. Esto deja la aplicación vulnerable a ataques de inyección SQL si un atacante proporciona datos maliciosos. |
 |------------------------|----------------|
 | Como lo solucionamos | La forma de solucionar el problema manteniendo el  uso de **SQLite3::escapeString() , es** asegurarse de que la consulta se construya correctamente. En este caso, debemos asegurarnor de que el usuario proporcionado esté entre comillas simples en la consulta SQL. |
 | Solucion: Cambiar la línea con el codigo |   $query = SQLite3::escapeString('SELECT userId, password FROM users WHERE username = "' . $user . '"'); |
 | por la siguiente | $escapedUser = SQLite3::escapeString($user); |
 |    |  $query = 'SELECT userId, password FROM users WHERE username = \'' . $escapedUser . '\''; |
-```
 
 d) **Si habéis tenido éxito con el *apartado b),* os habéis autenticado utilizando elusuario “luis” (si no habéis tenido éxito, podéis utilizar la contraseña “1234” para realizar este apartado). Con el objetivo de mejorar la imagen de la jugadora “Candela Pacheco”, le queremos escribir un buen puñado de comentarios positivos, pero no los queremos hacer todos con la misma cuenta de usuario.**
 
@@ -88,7 +86,7 @@ La vulnerabilidad en el código de "add_comment.php" es que no verifica adecuada
 
 Por lo tanto, cualquier usuario puede manipular esta cookie y falsificar su identidad para publicar un comentario en nombre de otro usuario. Esto significa que un atacante puede explotar esta vulnerabilidad para publicar mensajes en nombre de otros usuarios sin su autorización.
 
-```markdown
+
 | Vulnerabilidad detectada | $query = "INSERT INTO comments (playerId, userId, body) VALUES ('".$_GET['id']."', '".$_COOKIE['userId']."', '$body')"; |
 |----------------------|-------------------|
 |            | En esta línea, el código toma el valor de la cookie userId sin verificar si realmente pertenece al usuario autenticado. |
@@ -102,19 +100,18 @@ if (areUserAndPasswordValid($_POST['username'], $_POST['password'])) {
 $stmt->bindValue(1, $playerId, SQLITE3_INTEGER);
 $stmt->bindValue(2, $_SESSION['userId'], SQLITE3_INTEGER);
 $stmt->bindValue(3, $body, SQLITE3_TEXT);
-
 $stmt->execute() or die("Invalid query"); |
-```
+
 
 **Parte 2 - XSS**
 
 a) Para ver si hay un problema de XSS, crearemos un comentario que muestre un alert de Javascript siempre que alguien consulte el/los comentarios de aquel jugador (show_comments.php). Dad un mensaje que genere un «alert»de Javascript al consultar el listado de mensajes.
 
-```markdown
+
 | Introduzco el mensaje | imagen |
 | En el formulario de la página: | http://localhost/add_comment.php?id=5 |
 | Alerta | imagen |
-```
+
 
 ![Untitled](img/3.png)
 
@@ -126,7 +123,7 @@ El símbolo "&" en el enlace de donación dentro del código HTML se utiliza com
 
 c) Explicad cuál es el problema de show_comments.php, y cómo lo arreglaríais. Para resolver este apartado, podéis mirar el código fuente de esta página.
 
-```markdown
+
 | ¿Cuál es el problema? | El problema principal en **`show_comments.php`** es la vulnerabilidad de XSS (Cross-Site Scripting) en la línea donde se muestra el enlace de donación en el pie de página. La URL del enlace de donación incluye parámetros GET (**`amount`** y **`destination`**) que se pasan directamente desde el código PHP al HTML sin ningún tipo de sanitización. Esto permite que un atacante pueda inyectar código JavaScript malicioso en esos parámetros y ejecutarlo en el navegador de un usuario cuando haga clic en el enlace de donación. |
 |-----------------------|----------------|
 | Solución | Para solucionar este problema y mejorar la seguridad del sitio, es necesario implementar una sanitización adecuada en los parámetros GET antes de insertarlos en el HTML. Una forma común de hacer esto es utilizando la función **`htmlspecialchars()`** en PHP para escapar los caracteres especiales en HTML. |
@@ -141,14 +138,14 @@ c) Explicad cuál es el problema de show_comments.php, y cómo lo arreglaríais.
     < Please <a href="http://www.donate.co?amount=<?php echo htmlspecialchars($_GET['amount']); ?>&amp;destination=<?php echo htmlspecialchars($_GET['destination']); ?>"> donate</a> >
 </footer> |
 |  | Con esta corrección, cualquier código JavaScript malicioso inyectado en los parámetros **amount** y **destination** será escapado y tratado como texto plano en lugar de ser interpretado como HTML o JavaScript, mitigando así la vulnerabilidad de XSS. |
-```
+
 
 d)  Descubrid si hay alguna otra página que esté afectada por esta misma vulnerabilidad. En caso positivo, explicad cómo lo habéis descubierto.
 
-```markdown
+
 | Otras páginas afectadas | En **insert_player.php?id=**, el campo **id** no está sanitizado, lo que permite realizar una inyección de código. Anteriormente, observamos que el campo **id** no se estaba validando correctamente, lo que nos permitió inyectar un script malicioso que muestra un alert. |
 | ¿Cómo lo he descubierto? | Buscando entre los posibles formularios a lso qu etengo acceso |
-```
+
 
 **Parte 3 - Control de acceso, autenticación y sesiones de usuarios**
 
@@ -803,7 +800,7 @@ Implementa un sistema que valide la sesión del usuario en cada solicitud de pá
 
 a) Editad un jugador para conseguir que, en el listado de jugadores (list_players.php) aparezca, debajo del nombre de su equipo y antes de “(show/add comments)” un botón llamado “Profile” que corresponda a un formulario que envíe a cualquiera que haga clic sobre este botón a esta dirección que hemos preparado.
 
-```
+
 | En el campo | Team name |
 |-------------|-------------|
 | Introduzco | <?$team?>
@@ -812,7 +809,7 @@ a) Editad un jugador para conseguir que, en el listado de jugadores (list_player
 <br></br>
 <br></br>
 <a href="http://web.pagos/donate.php?amount=100&receiver=attacker">Profile</a> |
-```
+
 
 ![Untitled](img/5.png)
 
