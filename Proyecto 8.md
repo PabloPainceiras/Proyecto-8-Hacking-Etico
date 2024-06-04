@@ -109,6 +109,7 @@ a) Para ver si hay un problema de XSS, crearemos un comentario que muestre un al
 
 
 | Introduzco el mensaje | imagen |
+|-------------|--------------|
 | En el formulario de la página: | http://localhost/add_comment.php?id=5 |
 | Alerta | imagen |
 
