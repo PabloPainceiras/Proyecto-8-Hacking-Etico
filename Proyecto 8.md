@@ -804,12 +804,12 @@ a) Editad un jugador para conseguir que, en el listado de jugadores (list_player
 
 | En el campo | Team name |
 |-------------|-------------|
-| Introduzco | <?$team?>
-<br></br>
-<br></br>
-<br></br>
-<br></br>
-<a href="http://web.pagos/donate.php?amount=100&receiver=attacker">Profile</a> |
+| Introduzco | <?$team?> |
+| | ```<br></br>``` |
+| | ```<br></br>``` |
+| | ```<br></br>``` |
+| | ```<br></br>``` |
+| | ```<a href="http://web.pagos/donate.php?amount=100&receiver=attacker">Profile</a>``` |
 
 
 ![Untitled](img/5.png)
