@@ -156,7 +156,7 @@ a) En el ejercicio 1, hemos visto cómo era inseguro el acceso de los usuarios a
 **Medidas de seguridad y justificación**
 
 1. **Validación de entrada del usuario**: Es crucial validar los datos ingresados por el usuario para asegurarse de que cumplen con los requisitos esperados (por ejemplo, longitud mínima/máxima, caracteres permitidos). Esto previene la inyección de caracteres maliciosos.
-2. **Escapado de la entrada del isuario**: Aunque **`SQLite3::escapeString`** ayuda a escapar caracteres especiales, es más seguro utilizar declaraciones preparadas para prevenir inyecciones SQL.
+2. **Escapado de la entrada del usuario**: Aunque **`SQLite3::escapeString`** ayuda a escapar caracteres especiales, es más seguro utilizar declaraciones preparadas para prevenir inyecciones SQL.
 3. **Almacenamiento seguro de contraseñas**: Las contraseñas deben ser almacenadas de forma segura utilizando un algoritmo de hash adecuado (por ejemplo, **`password_hash`** en PHP), en lugar de almacenarlas en texto plano.
 4. **Verificación de duplicados**: Antes de insertar un nuevo usuario, se debe verificar si el nombre de usuario ya existe en la base de datos para prevenir duplicados.
 5. **Manejo seguro de errores**: Evitar mostrar mensajes de error detallados al usuario final para no revelar información sobre la estructura interna de la base de datos.
